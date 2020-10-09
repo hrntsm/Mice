@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Grasshopper.Kernel;
-using Mise.Solvers;
+using Mice.Solvers;
 using Rhino.Geometry;
 
-namespace Mise.Components.Load
+namespace Mice.Components.Analysis
 {/// <summary>
     /// 任意荷重のかかった梁の計算
     /// </summary>
@@ -24,11 +24,8 @@ namespace Mise.Components.Load
         double C = 1.0;
         double fb = 0.0;
         // サブカテゴリ内の配置
-        public override GH_Exposure Exposure {
-            get {
-                return GH_Exposure.tertiary;
-            }
-        }
+        public override GH_Exposure Exposure => GH_Exposure.tertiary;
+
         public AnyM()
             //     名称          略称     ｺﾝﾎﾟｰﾈﾝﾄの説明                 ｶﾃｺﾞﾘ   ｻﾌﾞｶﾃｺﾞﾘ
             : base("Any Moment", "Any M", "Analysis of the beam of Any Moment", "Mice", "Beam Analysis") {

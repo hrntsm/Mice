@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Grasshopper.Kernel;
-using Mise.Solvers;
+using Mice.Solvers;
 using Rhino.Geometry;
 
-namespace Mise.Components.Load
+namespace Mice.Components.Analysis
 {
     /// <summary>
     /// 台形分布荷重の梁の計算
@@ -28,7 +28,7 @@ namespace Mise.Components.Load
 
         public override GH_Exposure Exposure => GH_Exposure.primary;
         public override bool IsPreviewCapable => true;
-        protected override System.Drawing.Bitmap Icon => Properties.Resource.UL_icon;
+        protected override Bitmap Icon => Properties.Resource.UL_icon;
         public override Guid ComponentGuid => new Guid("621eac11-23fb-445c-9430-44ce37bf9020");
 
         public TLoad()

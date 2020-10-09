@@ -8,8 +8,8 @@
     <ProjectGuid>{28D1B83C-8E07-4876-B127-EFAD7A4F01EA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Mise</RootNamespace>
-    <AssemblyName>Mise</AssemblyName>
+    <RootNamespace>Mice</RootNamespace>
+    <AssemblyName>Mice</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <IsWebBootstrapper>false</IsWebBootstrapper>
@@ -32,6 +32,26 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Eto, Version=2.5.0.0, Culture=neutral, PublicKeyToken=552281e97c755530">
+      <HintPath>..\packages\RhinoCommon.6.29.20238.11501\lib\net45\Eto.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="GH_IO, Version=6.29.20238.11500, Culture=neutral, PublicKeyToken=6a29997d2e6b4f97">
+      <HintPath>..\packages\Grasshopper.6.29.20238.11501\lib\net45\GH_IO.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Grasshopper, Version=6.29.20238.11500, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803">
+      <HintPath>..\packages\Grasshopper.6.29.20238.11501\lib\net45\Grasshopper.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Rhino.UI, Version=6.29.20238.11500, Culture=neutral, PublicKeyToken=552281e97c755530">
+      <HintPath>..\packages\RhinoCommon.6.29.20238.11501\lib\net45\Rhino.UI.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="RhinoCommon, Version=6.29.20238.11500, Culture=neutral, PublicKeyToken=552281e97c755530">
+      <HintPath>..\packages\RhinoCommon.6.29.20238.11501\lib\net45\RhinoCommon.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -39,32 +59,24 @@
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
-    <Reference Include="RhinoCommon">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Rhino 6\System\rhinocommon.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="Grasshopper">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Rhino 6\Plug-ins\Grasshopper\Grasshopper.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="GH_IO">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files\Rhino 6\Plug-ins\Grasshopper\GH_IO.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Components\Load\AnyM.cs" />
-    <Compile Include="Components\Load\Canti.cs" />
-    <Compile Include="Components\Load\CLoad.cs" />
-    <Compile Include="Components\Load\TLoad.cs" />
+    <Compile Include="Components\Analysis\AnyM.cs" />
+    <Compile Include="Components\Analysis\CantiCLoad.cs" />
+    <Compile Include="Components\Analysis\CLoad.cs" />
+    <Compile Include="Components\Analysis\NewmarkBeta.cs" />
+    <Compile Include="Components\Analysis\TLoad.cs" />
     <Compile Include="Components\Model\BoxShape.cs" />
     <Compile Include="Components\Model\HShape.cs" />
     <Compile Include="Components\Model\LShape.cs" />
+    <Compile Include="Components\Model\LumpedMass.cs" />
     <Compile Include="Components\Result\MomentView.cs" />
-    <Compile Include="MiseInfo.cs" />
+    <Compile Include="Components\Result\LumpedMass.cs" />
+    <Compile Include="Components\Util\MKtoT.cs" />
+    <Compile Include="Components\Util\KTtoM.cs" />
+    <Compile Include="Components\Util\MTtoK.cs" />
+    <Compile Include="Components\Util\SinWave.cs" />
+    <Compile Include="MiceInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Properties\Resource.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -72,9 +84,11 @@
       <DependentUpon>Resource.resx</DependentUpon>
     </Compile>
     <Compile Include="Solvers\BeamAnalysis.cs" />
+    <Compile Include="Solvers\ResponseAnalysis.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\AnyM_icon.png" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\BOX_icon.png" />
@@ -148,4 +162,13 @@ Erase "$(TargetPath)"</PostBuildEvent>
     </StartArguments>
     <StartAction>Program</StartAction>
   </PropertyGroup>
+  <Import Project="..\packages\RhinoCommon.6.29.20238.11501\build\net45\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.6.29.20238.11501\build\net45\RhinoCommon.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\RhinoCommon.6.29.20238.11501\build\net45\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RhinoCommon.6.29.20238.11501\build\net45\RhinoCommon.targets'))" />
+    <Error Condition="!Exists('..\packages\Grasshopper.6.29.20238.11501\build\net45\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grasshopper.6.29.20238.11501\build\net45\Grasshopper.targets'))" />
+  </Target>
+  <Import Project="..\packages\Grasshopper.6.29.20238.11501\build\net45\Grasshopper.targets" Condition="Exists('..\packages\Grasshopper.6.29.20238.11501\build\net45\Grasshopper.targets')" />
 </Project>

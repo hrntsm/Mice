@@ -4,13 +4,13 @@ using Grasshopper.Kernel;
 
 namespace Mise
 {
-    public class MiseInfo : GH_AssemblyInfo
+    public class MiceInfo : GH_AssemblyInfo
     {
         public override string Name
         {
             get
             {
-                return "Mise";
+                return "Mice";
             }
         }
         public override Bitmap Icon

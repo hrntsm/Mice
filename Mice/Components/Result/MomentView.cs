@@ -4,7 +4,7 @@ using System.Drawing;
 using Grasshopper.Kernel;
 using Rhino.Geometry;
 
-namespace Mise.Components.Result
+namespace Mice.Components.Result
 {
     public class MomentViewer : GH_Component {
         private List<double> M = new List<double>();

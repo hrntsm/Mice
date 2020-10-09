@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Grasshopper.Kernel;
-using Mise.Solvers;
+using Mice.Solvers;
 using Rhino.Geometry;
 
-namespace Mise.Components.Load
+namespace Mice.Components.Analysis
 {
     /// <summary>
     /// 中央集中荷重の梁の計算
