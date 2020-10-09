@@ -56,9 +56,76 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MiseComponent.cs" />
+    <Compile Include="Components\Load\AnyM.cs" />
+    <Compile Include="Components\Load\Canti.cs" />
+    <Compile Include="Components\Load\CLoad.cs" />
+    <Compile Include="Components\Load\TLoad.cs" />
+    <Compile Include="Components\Model\BoxShape.cs" />
+    <Compile Include="Components\Model\HShape.cs" />
+    <Compile Include="Components\Model\LShape.cs" />
+    <Compile Include="Components\Result\MomentView.cs" />
     <Compile Include="MiseInfo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="Solvers\BeamAnalysis.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\AnyM_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\BOX_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\calcK_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\calcM_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\calcT_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\CantiPL_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\CL_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\H_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\L_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\MakeSinWaveicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\MISEicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\ModelViewicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\Result_M_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\ResultViewicon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Images\UL_icon.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
