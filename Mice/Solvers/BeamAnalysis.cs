@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Mise.Solvers
+namespace Mice.Solvers
 {
     /// <summary>
     /// 許容曲げを計算するクラス

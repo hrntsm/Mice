@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Drawing;
 using Grasshopper.Kernel;
-using Mise.Solvers;
+using Mice.Solvers;
 using Rhino.Geometry;
 
-namespace Mise.Components.Load
+namespace Mice.Components.Analysis
 {
     /// <summary>
     /// 先端集中荷重の片持ち梁の計算
     /// </summary>
-    public class Canti : GH_Component {
+    public class CantiCLoad : GH_Component {
         private Color _textColour = Color.FromName("Black");
         private readonly Color _loadArrowColour = Color.FromName("Green");
         private readonly Color _rfArrowColour = Color.FromName("Chocolate");
@@ -30,7 +30,7 @@ namespace Mise.Components.Load
         protected override Bitmap Icon => Properties.Resource.CantiPL_icon;
         public override Guid ComponentGuid => new Guid("621eac11-23fb-445c-9430-44ce37bf9031");
 
-        public Canti()
+        public CantiCLoad()
             : base("Cantilever Point Load", "Canti PL", "Analysis of the beam of Cantilever Point Load", "Mice", "Beam Analysis")
         {
         }
