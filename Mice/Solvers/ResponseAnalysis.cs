@@ -4,17 +4,22 @@ namespace Mice.Solvers
 {
     public class ResponseAnalysis
     {
-        public static void NewmarkBeta(double m, double k, double h, double dt, double beta, int N, double[] accInput,
+        /// <summary>
+        /// ここを参考に実装
+        /// NewmarkBeta: http://kentiku-kouzou.jp/fortran-7.html
+        /// エネルギー： https://www.jstage.jst.go.jp/article/jscej1984/2001/676/2001_676_1/_pdf
+        /// </summary>
+        public static void NewmarkBeta(double mass, double k, double h, double dt, double beta, int N, double[] accInput,
                                        out double[] outAcc, out double[] outVel, out double[] outDisp,
                                        out double[] outEo, out double[] outEi, out double[] outEk, out double[] outEp
                                        )
         {
             // 解析関連パラメータ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-            double acc = 0d, vel = 0d, disp = 0d, an = 0d, vn = 0d, xn = 0d;
+            double acc = 0d, vel = 0d, disp = 0d, prevAcc = 0d, prevVel = 0d, prevDisp = 0d;
             double accIni = accInput[0];
             const double velIni = 0d;
             const double dispIni = 0d;
-            double c = 2 * h * Math.Sqrt(m * k); // 粘性減衰定数 (kN s/m)
+            double c = 2 * h * Math.Sqrt(mass * k); // 粘性減衰定数 (kN s/m)
             
             outAcc = new double[N];
             outVel = new double[N];
@@ -39,25 +44,28 @@ namespace Mice.Solvers
                 }
                 else
                 {
-                    acc = -(c * (vel + acc * dt / 2.0) + k * (disp + vel * dt + acc * (dt * dt) * (0.5 - beta)) + m * accInput[n])
-                        / (m + c * dt / 2.0 + k * (dt * dt) * beta);
-                    vel = vel + (1.0 / 2.0) * (acc + an) * dt;
-                    disp = disp + vn * dt + beta * (acc + 2.0 * an) * (dt * dt);
+                    var accU = accInput[n] +
+                                      c / mass * (prevVel + 0.5 * prevAcc * dt) +
+                                      k / mass * (prevDisp + prevVel * dt + (0.5 - beta) * prevAcc * Math.Pow(dt, 2));
+                    var accL = 1d + (0.5 * c / mass * dt) + (beta * k / mass * Math.Pow(dt, 2));
+                    acc = -1d * accU / accL;
+                    vel = vel + 0.5 * dt * (acc + prevAcc);
+                    disp = disp + prevVel * dt + ((0.5 - beta) * prevAcc * Math.Pow(dt, 2) + beta * acc * Math.Pow(dt, 2));
 
                     // 各エネルギー結果--------------------------------------------
-                    outEp[n] = 1.0 / 2.0 * k * (disp * disp);         // 弾性ひずみエネルギー
-                    outEk[n] = 1.0 / 2.0 * (m) * (vel * vel);       // 運動エネルギー
-                    outEi[n] = c * (vel * vel) + outEi[n - 1];      // 内部粘性減衰エネルギー
-                    outEo[n] = outEp[n] + outEk[n] + outEi[n];  // 総入力エネルギー
+                    outEp[n] = outEp[n - 1] + (k * disp) * vel / 1000;   // 弾性ひずみエネルギー
+                    outEk[n] = outEk[n - 1] + (mass * acc) * vel / 1000; // 運動エネルギー
+                    outEi[n] = outEi[n - 1] + (c * vel) * vel / 1000;             // 内部粘性減衰エネルギー
+                    outEo[n] = outEo[n - 1] - (mass * accInput[n]) * vel / 1000;  // 波の入力エネルギー
                 }
 
                 // 結果を出力配列に格納＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
                 outAcc[n] = acc;
                 outVel[n] = vel;
                 outDisp[n] = disp;
-                an = acc;
-                vn = vel;
-                xn = disp;
+                prevAcc = acc;
+                prevVel = vel;
+                prevDisp = disp;
             }
         }
     }
