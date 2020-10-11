@@ -66,21 +66,12 @@ namespace Mice.Components.Analysis
             model.Add(mass);
             model.Add(K);
 
-            //　地震波データの処理　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-            //　カンマ区切りで波形を入力するので、カンマで区切り配列に入れている
-            char[] delimiter = { ',' };    //分割文字
-            double[] wave = new double[N];
-            var wk = waveStr.Split(delimiter);
-            for (int i = 0; i < N; i++)
-            {
-                wave[i] = double.Parse(wk[i]);
-            }
-
             //　応答解析　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-            ResponseAnalysis.NewmarkBeta(mass/g, K, h, dt, beta, N, wave,
-                                         out double[] outAcc, out double[] outVel, out double[] outDisp,
-                                         out double[] outEo, out double[] outEi, out double[] outEk, out double[] outEp
-                                         );
+            var wave = ResponseAnalysis.Csv2Wave(waveStr, N);
+            ResponseAnalysis.NewmarkBeta(mass / g, K, h, dt, beta, N, wave,
+                out double[] outAcc, out double[] outVel, out double[] outDisp,
+                out double[] outEo, out double[] outEi, out double[] outEk, out double[] outEp
+            );
             
             // grasshopper へのデータ出力　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
             DA.SetDataList(0, model);

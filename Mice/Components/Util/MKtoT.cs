@@ -1,5 +1,6 @@
 ﻿using System;
 using Grasshopper.Kernel;
+using Mice.Solvers;
 
 namespace Mice.Components.Util
 {
@@ -25,7 +26,6 @@ namespace Mice.Components.Util
         {
             pManager.AddNumberParameter("NaturalPeriod", "T", "output Natural Period(sec)", GH_ParamAccess.item);
             pManager.AddNumberParameter("NaturalFrequency", "f", "output Natural Frequency(Hz)", GH_ParamAccess.item);
-            pManager.AddNumberParameter("NaturalAngularFrequency", "omega", "output Natural Angular Frequency(rad/sec)", GH_ParamAccess.item);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
@@ -36,13 +36,11 @@ namespace Mice.Components.Util
             if (!DA.GetData(0, ref mass)) { return; }
             if (!DA.GetData(1, ref K)) { return; }
 
-            var omega = Math.Sqrt(K / mass);
-            var T = 2.0 * Math.PI / omega;
+            var T = ResponseAnalysis.MK2T(mass, K);
             var f = 1.0 / T;
 
             DA.SetData(0, T);
             DA.SetData(1, f);
-            DA.SetData(2, omega);
         }
     }
 }
