@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Data.SqlTypes;
+using System.Runtime.InteropServices;
 
 namespace Mice.Solvers
 {
@@ -67,6 +69,38 @@ namespace Mice.Solvers
                 prevVel = vel;
                 prevDisp = disp;
             }
+        }
+
+        public static double[] Csv2Wave(string waveStr, int N)
+        {
+            char[] delimiter = {','}; //分割文字
+            double[] wave = new double[N];
+            var wk = waveStr.Split(delimiter);
+            for (int i = 0; i < N; i++)
+            {
+                wave[i] = double.Parse(wk[i]);
+            }
+
+            return wave;
+        }
+
+        public static double MT2K(double mass, double period)
+        {
+            var stiffness = 4.0 * Math.PI * Math.PI / (period * period) * mass;
+            return stiffness;
+        }
+
+        public static double KT2M(double stiffness, double period)
+        {
+            var mass = stiffness * ( period * period ) / (4.0 * Math.PI * Math.PI);
+            return mass;
+        }
+        
+        public static double MK2T(double mass, double stiffness)
+        {
+            var omega = Math.Sqrt(stiffness / mass);
+            var T = 2.0 * Math.PI / omega;
+            return T;
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using Grasshopper.Kernel;
+using Mice.Solvers;
 
 namespace Mice.Components.Util
 {
@@ -43,7 +44,7 @@ namespace Mice.Components.Util
             if (!DA.GetData(1, ref T)) { return; }
 
             // 各値の計算 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-            K = 4.0 * Math.PI * Math.PI / (T * T) * M;
+            K = ResponseAnalysis.MT2K(M, T);
 
             // grasshopper へのデータ出力　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
             DA.SetData(0, K);
