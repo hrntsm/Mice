@@ -123,6 +123,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Spectrum.png" />
+    <Content Include="release\.gitkeep" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Grasshopper">
