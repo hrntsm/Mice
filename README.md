@@ -7,9 +7,11 @@
 
 Simple structural analysis components for Grasshopper. Response analysis for 1 DOF and stress analysis for simple beams are available.
 
+Response analysis is an experimental feature.
+
 ## Install
 
-1. Download HoaryFox.gha file from [food4rhino](https://www.food4rhino.com/app/Mice) or [release page](https://github.com/hrntsm/Mice/releases)
+1. Download Mice.gha file from [food4rhino](https://www.food4rhino.com/app/Mice) or [release page](https://github.com/hrntsm/Mice/releases)
 2. In Grasshopper, choose File > Special Folders > Components folder. Save the gha file there.  
 3. Right-click the file > Properties > make sure there is no "blocked" text
 4. Restart Rhino and Grasshopper
@@ -24,14 +26,14 @@ This feature provides a simple stress analysis and cross-sectional verification 
   + Calculation for centralized load
 + Trapezoid Load
   + Calculation for Trapezoidal Distribution Load
-+ Cantilever Ponit Load
++ Cantilever Point Load
   + Calculation for cantilevered beam tip load
 + Box Shape
   + Calculate the cross-section parameter of a box shape section
 + H Shape
-  + Calculate the cross-section parameter of a I shepe section
+  + Calculate the cross-section parameter of a I shape section
 + L Shape
-  + Calculate the cross-section parameter of a L shepe section
+  + Calculate the cross-section parameter of a L shape section
 + Moment View
   + Display the moment of analysis on Rhino
 
@@ -44,14 +46,16 @@ This feature uses the Newmark β method to analyze the response of a single DOF 
 + MTtoK  
   + Calculate rigidity from mass and a peculiar period  
 + KTtoM  
-  + Calculate mass from rigidity and a peculiar period  
+  + Calculate mass from stiffness and a peculiar period  
 + MakeSinWave  
   + Make a sin wave as an input wave  
-+ 1dofRA 
++ 1DOF Response Analysis 
   + For input parameter, calculate 1dof response analysis in Newmarkβ method and output result  
++ Response Spectrum
+  + Calculate Response Spectrum of given wave date
 + ModelView  
   + Output a model on Rhino  
-+ ResultVeiw
++ ResultView
   + Move the model that output on Rhino depending on a result  
 
 ## Contact information
