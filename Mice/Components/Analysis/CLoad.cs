@@ -36,6 +36,13 @@ namespace Mice.Components.Analysis
         {
         }
         
+        public override void ClearData() {
+            base.ClearData();
+            Param.Clear();
+            M_out.Clear();
+            P = double.NaN;
+        }
+        
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
             pManager.AddNumberParameter("Analysis Parametar", "Param", "Input Analysis Parameter", GH_ParamAccess.list);
@@ -92,7 +99,11 @@ namespace Mice.Components.Analysis
             DA.SetData(4, D);
         }
         
-        public override void DrawViewportWires(IGH_PreviewArgs args) {
+        public override void DrawViewportWires(IGH_PreviewArgs args)
+        {
+            if (double.IsNaN(P))
+                return;
+
             // 荷重出力
             var LoadArrowStart = new Point3d(0, L / 2, L / 5);
             var LoadArrowEnd = new Point3d(0, L / 2, 0);
