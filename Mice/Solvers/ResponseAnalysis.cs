@@ -55,10 +55,10 @@ namespace Mice.Solvers
                     disp = disp + prevVel * dt + ((0.5 - beta) * prevAcc * Math.Pow(dt, 2) + beta * acc * Math.Pow(dt, 2));
 
                     // 各エネルギー結果--------------------------------------------
-                    outEp[n] = outEp[n - 1] + (k * disp) * vel / 1000;   // 弾性ひずみエネルギー
-                    outEk[n] = outEk[n - 1] + (mass * acc) * vel / 1000; // 運動エネルギー
-                    outEi[n] = outEi[n - 1] + (c * vel) * vel / 1000;             // 内部粘性減衰エネルギー
-                    outEo[n] = outEo[n - 1] - (mass * accInput[n]) * vel / 1000;  // 波の入力エネルギー
+                    outEp[n] = outEp[n - 1] + (k * disp) * vel;   // 弾性ひずみエネルギー
+                    outEk[n] = outEk[n - 1] + (mass * acc) * vel; // 運動エネルギー
+                    outEi[n] = outEi[n - 1] + (c * vel) * vel;             // 内部粘性減衰エネルギー
+                    outEo[n] = outEo[n - 1] - (mass * accInput[n]) * vel;  // 波の入力エネルギー
                 }
 
                 // 結果を出力配列に格納＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
@@ -86,7 +86,7 @@ namespace Mice.Solvers
 
         public static double MT2K(double mass, double period)
         {
-            var stiffness = 4.0 * Math.PI * Math.PI / (period * period) * mass;
+            var stiffness = (4.0 * mass * Math.PI * Math.PI) / (period * period);
             return stiffness;
         }
 

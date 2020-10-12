@@ -12,10 +12,10 @@ namespace Mice.Components.Analysis
     {
         public override GH_Exposure Exposure => GH_Exposure.primary;
         public override Guid ComponentGuid => new Guid("45F26C32-6EEA-450D-8B2B-647CFCC8AF9F");
-        protected override System.Drawing.Bitmap Icon => Properties.Resource.icon;
+        protected override System.Drawing.Bitmap Icon => Properties.Resource.Spectrum;
 
         public ResponseSpectrum()
-            : base("Response Spectrum", "Spectrum", "Response spectrum of the Single dof",
+            : base("Response Spectrum", "Spectrum", "**Experimental Function**\nResponse spectrum of the Single dof",
                 "Mice", "Response Analysis")
         {
         }
@@ -36,14 +36,13 @@ namespace Mice.Components.Analysis
             pManager.AddNumberParameter("Acceleration", "Acc", "output Acceleration(m/s^2)", GH_ParamAccess.list);
             pManager.AddNumberParameter("Velocity", "Vel", "output Velocity(m/s)", GH_ParamAccess.list);
             pManager.AddNumberParameter("Displacement", "Disp", "output Displacement(m)", GH_ParamAccess.list);
-            pManager.AddNumberParameter("Energy", "EN", "output Energy(kNm)", GH_ParamAccess.list);
+            pManager.AddNumberParameter("Energy", "EN", "output Energy(Nm)", GH_ParamAccess.list);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             // パラメータの定義 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
             var h = 0d; // 減衰定数
-            var g = 9.80665; // 重力加速度 m/s^2
             var dt = 0d; // 時間刻み sec
             var beta = 0d; // 解析パラメータ
             var N = 0; // 波形データ数
@@ -67,26 +66,27 @@ namespace Mice.Components.Analysis
             var velSpectrum = new List<double>();
             var dispSpectrum = new List<double>();
             var energySpectrum = new List<double>();
-            
+
+            double period =0;
             //TODO: error出力するようにする
             if (periodInterval.T0 > 0 & periodInterval.IsIncreasing)
             {
-                const double mass = 10d; // 質量 ton
+                const double mass = 10d; // 質量 kg
                 var p0 = periodInterval.T0;
                 var p1 = periodInterval.T1;
                 var pInc = (p1 - p0) / division;
-                var period = p0;
-                for (int i = 0; i < division + 1; i++)
+                 period = p0;
+                for (int i = 0; i < division; i++)
                 {
                     var stiffness = ResponseAnalysis.MT2K(mass, period);
-                    ResponseAnalysis.NewmarkBeta(mass / g, stiffness, h, dt, beta, N, wave,
-                        out double[] outAcc, out double[] outVel, out double[] outDisp,
-                        out double[] outEo, out double[] outEi, out double[] outEk, out double[] outEp
-                    );
+                    ResponseAnalysis.NewmarkBeta(mass, stiffness, h, dt, beta, N, wave,
+                            out double[] outAcc, out double[] outVel, out double[] outDisp,
+                            out double[] outEo, out double[] outEi, out double[] outEk, out double[] outEp
+                        );
                     
-                    accSpectrum.Add(outAcc.Max());
-                    velSpectrum.Add(outVel.Max());
-                    dispSpectrum.Add(outDisp.Max());
+                    accSpectrum.Add(Math.Max(outAcc.Max(), Math.Abs(outAcc.Min())));
+                    velSpectrum.Add(Math.Max(outVel.Max(), Math.Abs(outVel.Min())));
+                    dispSpectrum.Add(Math.Max(outDisp.Max(), Math.Abs(outDisp.Min())));
                     energySpectrum.Add(outEo.Max());
                     period = period + pInc;
                 }

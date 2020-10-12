@@ -213,6 +213,16 @@ namespace Mice.Properties {
         /// <summary>
         ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
         /// </summary>
+        internal static System.Drawing.Bitmap Spectrum {
+            get {
+                object obj = ResourceManager.GetObject("Spectrum", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   型 System.Drawing.Bitmap のローカライズされたリソースを検索します。
+        /// </summary>
         internal static System.Drawing.Bitmap UL_icon {
             get {
                 object obj = ResourceManager.GetObject("UL_icon", resourceCulture);
