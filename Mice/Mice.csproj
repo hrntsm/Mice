@@ -89,7 +89,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\AnyM_icon.png" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\BOX_icon.png" />
@@ -144,6 +143,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Spectrum.png" />
+    <Content Include="package.lock.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
