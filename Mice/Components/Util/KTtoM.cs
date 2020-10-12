@@ -25,7 +25,7 @@ namespace Mice.Components.Util
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("Stiffness", "K", "Spring Stiffness(kN/m)", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Stiffness", "K", "Spring Stiffness(N/m)", GH_ParamAccess.item);
             pManager.AddNumberParameter("NaturalPeriod", "T", "Natural Period(sec)", GH_ParamAccess.item);
         }
 
@@ -34,7 +34,7 @@ namespace Mice.Components.Util
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddNumberParameter("Mass", "M", "Lumped Mass(ton)", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Mass", "M", "Lumped Mass(kg)", GH_ParamAccess.item);
         }
         
         protected override void SolveInstance(IGH_DataAccess DA)
