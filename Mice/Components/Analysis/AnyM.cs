@@ -30,9 +30,14 @@ namespace Mice.Components.Analysis
             //     名称          略称     ｺﾝﾎﾟｰﾈﾝﾄの説明                 ｶﾃｺﾞﾘ   ｻﾌﾞｶﾃｺﾞﾘ
             : base("Any Moment", "Any M", "Analysis of the beam of Any Moment", "Mice", "Beam Analysis") {
         }
+        
         public override void ClearData() {
             base.ClearData();
+            Param.Clear();
+            M_out.Clear();
+            
         }
+        
         // ジオメトリなどを出力しなくてもPreviewを有効にする。
         public override bool IsPreviewCapable {
             get {
@@ -103,7 +108,7 @@ namespace Mice.Components.Analysis
             // 荷重出力
             Point3d LoadArrowStart = new Point3d(0, L / 2, L / 5);
             if (fb != 0) {
-                args.Display.Draw2dText(("AnyMoment "+ M.ToString("F1")), LoadArrowColour, LoadArrowStart, true, 22);
+                args.Display.Draw2dText(("AnyMoment "+ M_out[0].ToString("F1")), LoadArrowColour, LoadArrowStart, true, 22);
             }
         }
         /// <summary>

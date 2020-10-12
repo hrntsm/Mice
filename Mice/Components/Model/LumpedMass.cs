@@ -7,6 +7,7 @@ namespace Mice.Components.Model
 {
     public class LumpedMass : GH_Component
     {
+        private readonly List<Surface> _srf = new List<Surface>();
         public override GH_Exposure Exposure => GH_Exposure.secondary;
         public override Guid ComponentGuid => new Guid("419c3a3a-cc48-4715-9cef-5f5648a5ecfc");
         protected override System.Drawing.Bitmap Icon => Properties.Resource.ModelViewicon;
@@ -19,6 +20,11 @@ namespace Mice.Components.Model
                    "Result"                                 // サブカテゴリ(タブ内の表示名)
                   )
         {
+        }
+        
+        public override void ClearData() {
+            base.ClearData();
+            _srf.Clear();
         }
 
         /// <summary>
@@ -73,11 +79,10 @@ namespace Mice.Components.Model
             Cylinder FirstSpring = new Cylinder(new Circle(FSPGplane, Sc * K / 50), H-Sc*M);
 
             // モデルのrhino上への出力＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-            var Srf = new Surface[2];
-            Srf[0] = FirstSpring.ToRevSurface();
-            Srf[1] = FirstMass.ToRevSurface();
+            _srf[0] = FirstSpring.ToRevSurface();
+            _srf[1] = FirstMass.ToRevSurface();
 
-            DA.SetDataList(0, Srf);
+            DA.SetDataList(0, _srf);
         }
     }
 }
