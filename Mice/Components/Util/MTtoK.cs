@@ -1,5 +1,6 @@
 ﻿using System;
 using Grasshopper.Kernel;
+using Mice.Solvers;
 
 namespace Mice.Components.Util
 {
@@ -20,7 +21,7 @@ namespace Mice.Components.Util
         /// </summary>
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("Mass", "M", "Lumped Mass(ton)", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Mass", "M", "Lumped Mass(kg)", GH_ParamAccess.item);
             pManager.AddNumberParameter("NaturalPeriod", "T", "Natural Period(sec)", GH_ParamAccess.item);
         }
 
@@ -29,7 +30,7 @@ namespace Mice.Components.Util
         /// </summary>
         protected override void RegisterOutputParams(GH_OutputParamManager pManager)
         {
-            pManager.AddNumberParameter("Stiffness", "K", "Spring Stiffness(kN/m)", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Stiffness", "K", "Spring Stiffness(N/m)", GH_ParamAccess.item);
         }
         protected override void SolveInstance(IGH_DataAccess DA)
         {
@@ -43,7 +44,7 @@ namespace Mice.Components.Util
             if (!DA.GetData(1, ref T)) { return; }
 
             // 各値の計算 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-            K = 4.0 * Math.PI * Math.PI / (T * T) * M;
+            K = ResponseAnalysis.MT2K(M, T);
 
             // grasshopper へのデータ出力　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
             DA.SetData(0, K);

@@ -34,6 +34,13 @@ namespace Mice.Components.Analysis
             : base("Cantilever Point Load", "Canti PL", "Analysis of the beam of Cantilever Point Load", "Mice", "Beam Analysis")
         {
         }
+        
+        public override void ClearData() {
+            base.ClearData();
+            Param.Clear();
+            M_out.Clear();
+            P = double.NaN;
+        }
 
         protected override void RegisterInputParams(GH_Component.GH_InputParamManager pManager)
         {
@@ -89,23 +96,26 @@ namespace Mice.Components.Analysis
             DA.SetData(4, D);
         }
         
-        public override void DrawViewportWires(IGH_PreviewArgs args) 
+        public override void DrawViewportWires(IGH_PreviewArgs args)
         {
+            if (double.IsNaN(P))
+                return;
+
             // 荷重出力
-            Point3d LoadArrowStart = new Point3d(0, L, L / 5);
-            Point3d LoadArrowEnd = new Point3d(0, L, 0);
-            Line LoadArrow = new Line(LoadArrowStart, LoadArrowEnd);
+            var loadArrowStart = new Point3d(0, L, L / 5);
+            var loadArrowEnd = new Point3d(0, L, 0);
+            var loadArrow = new Line(loadArrowStart, loadArrowEnd);
             // 反力出力
-            Point3d RFArrowStart1 = new Point3d(0, 0, -L / 5);
-            Point3d RFArrowEnd1 = new Point3d(0, 0, 0);
-            Line RFArrow1 = new Line(RFArrowStart1, RFArrowEnd1);
+            var rfArrowStart1 = new Point3d(0, 0, -L / 5);
+            var rfArrowEnd1 = new Point3d(0, 0, 0);
+            var rfArrow1 = new Line(rfArrowStart1, rfArrowEnd1);
             //
             if (D != 0) {
-                args.Display.DrawArrow(LoadArrow, _loadArrowColour);
-                args.Display.Draw2dText(P.ToString("F1"), _loadArrowColour, LoadArrowStart, false, 22);
+                args.Display.DrawArrow(loadArrow, _loadArrowColour);
+                args.Display.Draw2dText(P.ToString("F1"), _loadArrowColour, loadArrowStart, false, 22);
                 //
-                args.Display.DrawArrow(RFArrow1, _rfArrowColour);
-                args.Display.Draw2dText((P).ToString("F1"), _rfArrowColour, RFArrowStart1, false, 22);
+                args.Display.DrawArrow(rfArrow1, _rfArrowColour);
+                args.Display.Draw2dText(P.ToString("F1"), _rfArrowColour, rfArrowStart1, false, 22);
             }
         }
     }

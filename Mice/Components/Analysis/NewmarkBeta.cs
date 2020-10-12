@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using Grasshopper.Kernel;
 using Mice.Solvers;
 
@@ -12,15 +13,15 @@ namespace Mice.Components.Analysis
         protected override System.Drawing.Bitmap Icon => Properties.Resource.icon;
         
         public NewmarkBeta()
-            : base("1dof Response Analysis", "1dof RA", "Response Analysis of the Single dof",
+            : base("1dof Response Analysis", "1dof RA", "**Experimental Function**\nResponse Analysis of the Single dof",
                  "Mice", "Response Analysis")
         {
         }
 
         protected override void RegisterInputParams(GH_InputParamManager pManager)
         {
-            pManager.AddNumberParameter("Mass", "M", "Lumped Mass(ton)", GH_ParamAccess.item, 10);
-            pManager.AddNumberParameter("Stiffness", "K", "Spring Stiffness(kN/m)", GH_ParamAccess.item, 10);
+            pManager.AddNumberParameter("Mass", "M", "Lumped Mass(kg)", GH_ParamAccess.item, 10);
+            pManager.AddNumberParameter("Stiffness", "K", "Spring Stiffness(N/m)", GH_ParamAccess.item, 10);
             pManager.AddNumberParameter("Damping ratio", "h", "Damping ratio", GH_ParamAccess.item, 0.02);
             pManager.AddNumberParameter("Time Increment", "dt", "Time Increment(sec)", GH_ParamAccess.item, 0.02);
             pManager.AddNumberParameter("Beta", "Beta", "Parameters of Newmark β ", GH_ParamAccess.item, 0.25);
@@ -34,20 +35,19 @@ namespace Mice.Components.Analysis
             pManager.AddNumberParameter("Acceleration", "Acc", "output Acceleration(m/s^2)", GH_ParamAccess.item);
             pManager.AddNumberParameter("Velocity", "Vel", "output Velocity(m/s)", GH_ParamAccess.item);
             pManager.AddNumberParameter("Displacement", "Disp", "output Displacement(m)", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Total E", "Eo", "output Total Input Energy(kNm)", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Internal E", "Ei", "output Internal Viscous Damping Energy(kNm)", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Kinetic E", "Ek", "output Kinetic Energy(kNm)", GH_ParamAccess.item);
-            pManager.AddNumberParameter("Potential E", "Ep", "output Potential Energy(kNm)", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Total E", "Eo", "output Total Input Energy(Nm)", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Internal E", "Ei", "output Internal Viscous Damping Energy(Nm)", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Kinetic E", "Ek", "output Kinetic Energy(Nm)", GH_ParamAccess.item);
+            pManager.AddNumberParameter("Potential E", "Ep", "output Potential Energy(Nm)", GH_ParamAccess.item);
         }
 
         protected override void SolveInstance(IGH_DataAccess DA)
         {
             // パラメータの定義 ＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
             var model = new List<double>();
-            var mass = 0d;    // 質量 ton
-            var K = 0d;    // 剛性 kN/m
+            var mass = 0d;    // 質量 kg
+            var K = 0d;    // 剛性 N/m
             var h = 0d;    // 減衰定数
-            var g = 9.80665;       // 重力加速度 m/s^2
             var dt = 0d;   // 時間刻み sec
             var beta = 0d; // 解析パラメータ
             var N = 0;                // 波形データ数
@@ -66,21 +66,12 @@ namespace Mice.Components.Analysis
             model.Add(mass);
             model.Add(K);
 
-            //　地震波データの処理　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-            //　カンマ区切りで波形を入力するので、カンマで区切り配列に入れている
-            char[] delimiter = { ',' };    //分割文字
-            double[] wave = new double[N];
-            var wk = waveStr.Split(delimiter);
-            for (int i = 0; i < N; i++)
-            {
-                wave[i] = double.Parse(wk[i]);
-            }
-
             //　応答解析　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
-            ResponseAnalysis.NewmarkBeta(mass/g, K, h, dt, beta, N, wave,
-                                         out double[] outAcc, out double[] outVel, out double[] outDisp,
-                                         out double[] outEo, out double[] outEi, out double[] outEk, out double[] outEp
-                                         );
+            var wave = ResponseAnalysis.Csv2Wave(waveStr, N);
+            ResponseAnalysis.NewmarkBeta(mass, K, h, dt, beta, N, wave,
+                out double[] outAcc, out double[] outVel, out double[] outDisp,
+                out double[] outEo, out double[] outEi, out double[] outEk, out double[] outEp
+            );
             
             // grasshopper へのデータ出力　＝＝＝＝＝＝＝＝＝＝＝＝＝＝＝
             DA.SetDataList(0, model);

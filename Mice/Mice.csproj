@@ -65,6 +65,7 @@
     <Compile Include="Components\Analysis\CantiCLoad.cs" />
     <Compile Include="Components\Analysis\CLoad.cs" />
     <Compile Include="Components\Analysis\NewmarkBeta.cs" />
+    <Compile Include="Components\Analysis\ResponseSpectrum.cs" />
     <Compile Include="Components\Analysis\TLoad.cs" />
     <Compile Include="Components\Model\BoxShape.cs" />
     <Compile Include="Components\Model\HShape.cs" />
@@ -140,6 +141,9 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resource.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Images\Spectrum.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
