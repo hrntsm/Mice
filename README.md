@@ -1,6 +1,6 @@
 ﻿# Mice
 
-![Platform](https://img.shields.io/badge/platform-Rhino6%20%7C%20Grasshopper-orange)
+![Build Action](https://github.com/hrntsm/Mice/workflows/Build%20Grasshopper%20Plugin/badge.svg)
 ![License](https://img.shields.io/github/license/hrntsm/Mice)
 ![Release](https://img.shields.io/github/v/release/hrntsm/Mice)
 ![Download](https://img.shields.io/github/downloads/hrntsm/Mice/total)

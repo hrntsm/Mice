@@ -1,12 +1,11 @@
-﻿name: Grasshopper Plugin
+﻿name: Build Grasshopper Plugin
 
 on:
   push:
-    branches:
-      - develop
-      - main
-      - feature/gh-actions
-
+    branches: [main, develop, feature/gh-actions]
+  pull_request:
+    branches: [main, develop]
+    
 jobs:
   build:
     strategy:
