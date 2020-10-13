@@ -26,32 +26,12 @@
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
     <Optimize>true</Optimize>
-    <OutputPath>bin\</OutputPath>
+    <OutputPath>release\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Eto, Version=2.5.0.0, Culture=neutral, PublicKeyToken=552281e97c755530">
-      <HintPath>..\packages\RhinoCommon.6.29.20238.11501\lib\net45\Eto.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="GH_IO, Version=6.29.20238.11500, Culture=neutral, PublicKeyToken=6a29997d2e6b4f97">
-      <HintPath>..\packages\Grasshopper.6.29.20238.11501\lib\net45\GH_IO.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Grasshopper, Version=6.29.20238.11500, Culture=neutral, PublicKeyToken=dda4f5ec2cd80803">
-      <HintPath>..\packages\Grasshopper.6.29.20238.11501\lib\net45\Grasshopper.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="Rhino.UI, Version=6.29.20238.11500, Culture=neutral, PublicKeyToken=552281e97c755530">
-      <HintPath>..\packages\RhinoCommon.6.29.20238.11501\lib\net45\Rhino.UI.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
-    <Reference Include="RhinoCommon, Version=6.29.20238.11500, Culture=neutral, PublicKeyToken=552281e97c755530">
-      <HintPath>..\packages\RhinoCommon.6.29.20238.11501\lib\net45\RhinoCommon.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Data" />
@@ -89,7 +69,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\AnyM_icon.png" />
-    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Images\BOX_icon.png" />
@@ -144,6 +123,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Images\Spectrum.png" />
+    <Content Include="release\.gitkeep" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Grasshopper">
+      <Version>6.29.20238.11501</Version>
+    </PackageReference>
+    <PackageReference Include="RhinoCommon">
+      <Version>6.29.20238.11501</Version>
+    </PackageReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -166,13 +154,4 @@ Erase "$(TargetPath)"</PostBuildEvent>
     </StartArguments>
     <StartAction>Program</StartAction>
   </PropertyGroup>
-  <Import Project="..\packages\RhinoCommon.6.29.20238.11501\build\net45\RhinoCommon.targets" Condition="Exists('..\packages\RhinoCommon.6.29.20238.11501\build\net45\RhinoCommon.targets')" />
-  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
-    <PropertyGroup>
-      <ErrorText>This project references NuGet package(s) that are missing on this computer. Enable NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105.The missing file is {0}.</ErrorText>
-    </PropertyGroup>
-    <Error Condition="!Exists('..\packages\RhinoCommon.6.29.20238.11501\build\net45\RhinoCommon.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\RhinoCommon.6.29.20238.11501\build\net45\RhinoCommon.targets'))" />
-    <Error Condition="!Exists('..\packages\Grasshopper.6.29.20238.11501\build\net45\Grasshopper.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Grasshopper.6.29.20238.11501\build\net45\Grasshopper.targets'))" />
-  </Target>
-  <Import Project="..\packages\Grasshopper.6.29.20238.11501\build\net45\Grasshopper.targets" Condition="Exists('..\packages\Grasshopper.6.29.20238.11501\build\net45\Grasshopper.targets')" />
 </Project>
